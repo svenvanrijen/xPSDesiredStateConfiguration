@@ -173,6 +173,13 @@ function Set-TargetResource
         # No need to proceed any more
         return
     }
+      elseif ($certificateThumbPrint -eq "CertificateGeneratedInSameConfig")
+    {
+        $certificateThumbPrint = (Get-ChildItem -Path Cert:\LocalMachine\My |
+                                  Where-Object -FilterScript {
+                                  $_.subject -eq "CN=$Subject"  } |
+                                  Select-Object -Property Thumbprint -ExpandProperty Thumbprint)
+    }
 
     # Initialize with default values     
     $script:appCmd = "$env:windir\system32\inetsrv\appcmd.exe"

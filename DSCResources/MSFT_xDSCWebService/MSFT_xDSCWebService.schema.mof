@@ -2,8 +2,10 @@
 class MSFT_xDSCWebService : OMI_BaseResource
 {
   [Key] string EndpointName;
-  [required, Description("Can take the value AllowUnencryptedTraffic for setting up a non SSL based endpoint")]
+  [required, Description("Can take the value AllowUnencryptedTraffic for setting up a non SSL based endpoint or the value CertificateGeneratedInSameConfig when a certificate is requested with the xCertReq resource in the same config.")]
   string CertificateThumbPrint;
+  [write, Description("Required when the value CertificateGeneratedInSameConfig is used for CertificateThumbPrint")] 
+  string Subject;
   [write] uint32 Port;
   [write] string PhysicalPath;
   [write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
